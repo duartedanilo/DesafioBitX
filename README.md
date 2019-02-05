@@ -1,2 +1,0 @@
-# DesafioBitX
-Created with CodeSandbox
