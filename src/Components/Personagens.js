@@ -29,9 +29,24 @@ class Personagens extends Component {
     axios.get("https://swapi.co/api/people/?search=" + personagem).then(res => {
       this.setState({
         showResults: true,
-        registers: res.data.results
+        registers: res.data.results,
+        films: res.data.results.films
       });
     });
+  };
+
+  handleDetalhe = async (nome, dt, tipo) => {
+    const data = await JSON.stringify(dt);
+    await sessionStorage.setItem("NOME_PERSONAGEM", nome);
+    if (tipo === "FILME")
+      await sessionStorage.setItem("FILMES_PERSONAGEM", data);
+    else if (tipo === "VEICULO")
+      await sessionStorage.setItem("VEICULOS_PERSONAGEM", data);
+    else if (tipo === "NAVES")
+      await sessionStorage.setItem("NAVES_PERSONAGEM", data);
+    await sessionStorage.setItem("TIPO", tipo);
+
+    document.location.href = document.location.origin + "/detalhe";
   };
 
   render() {
@@ -83,10 +98,14 @@ class Personagens extends Component {
               </Col>
               {person.films.length > 0 && (
                 <Col>
-                  <a href="/detalhe">
+                  <a
+                    onClick={_ =>
+                      this.handleDetalhe(person.name, person.films, "FILME")
+                    }
+                  >
                     <Card>
                       <Card.Header className="font-weight-bold">
-                        Ver Filmes Films
+                        Ver Filmes
                       </Card.Header>
                       {/*  <ListGroup className="list-group-flush">
                     {person.films.map(film => (
@@ -97,32 +116,50 @@ class Personagens extends Component {
                   </a>
                 </Col>
               )}
-              <Col>
-                <Card>
-                  <Card.Header className="font-weight-bold">
-                    Starships
-                  </Card.Header>
-
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>{person.name}</ListGroupItem>
-                    <ListGroupItem>{person.name}</ListGroupItem>
-                    <ListGroupItem>{person.name}</ListGroupItem>
-                  </ListGroup>
-                </Card>
-              </Col>
-              <Col>
-                <Card>
-                  <Card.Header className="font-weight-bold">
-                    Species
-                  </Card.Header>
-
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem>{person.name}</ListGroupItem>
-                    <ListGroupItem>{person.name}</ListGroupItem>
-                    <ListGroupItem>{person.name}</ListGroupItem>
-                  </ListGroup>
-                </Card>
-              </Col>
+              {person.vehicles.length > 0 && (
+                <Col>
+                  <a
+                    onClick={_ =>
+                      this.handleDetalhe(
+                        person.name,
+                        person.vehicles,
+                        "VEICULO"
+                      )
+                    }
+                  >
+                    <Card>
+                      <Card.Header className="font-weight-bold">
+                        Ver veículos
+                      </Card.Header>
+                      {/*  <ListGroup className="list-group-flush">
+                    {person.films.map(film => (
+                      <ListGroupItem>{film}</ListGroupItem>
+                    ))}
+                  </ListGroup>*/}
+                    </Card>
+                  </a>
+                </Col>
+              )}
+              {person.starships.length > 0 && (
+                <Col>
+                  <a
+                    onClick={_ =>
+                      this.handleDetalhe(person.name, person.starships, "NAVES")
+                    }
+                  >
+                    <Card>
+                      <Card.Header className="font-weight-bold">
+                        Ver naves
+                      </Card.Header>
+                      {/*  <ListGroup className="list-group-flush">
+                    {person.films.map(film => (
+                      <ListGroupItem>{film}</ListGroupItem>
+                    ))}
+                  </ListGroup>*/}
+                    </Card>
+                  </a>
+                </Col>
+              )}
             </Row>
           </Fragment>
         ))}
