@@ -55,23 +55,43 @@ class Home extends Component {
           await this.setState({ count: this.state.count - 1 });
           if (this.state.count <= 0) {
             await this.setState({ films });
-            console.log(this.state.count);
-            console.log(this.state.films);
           }
         });
         await this.setState({ tipo: TIPO, nome: NAME });
       }
     } else if (TIPO === "VEICULO") {
-      let vehicles = await sessionStorage.getItem("VEICULOS_PERSONAGEM");
-      if (vehicles != null) {
-        vehicles = await JSON.parse(vehicles);
-        await this.setState({ tipo: TIPO, nome: NAME, vehicles });
+      let vehicleAux = await sessionStorage.getItem("VEICULOS_PERSONAGEM");
+      if (vehicleAux != null) {
+        vehicleAux = await JSON.parse(vehicleAux);
+        let vehicle = [];
+        await this.setState({ count: vehicleAux.length });
+        vehicleAux.forEach(async url => {
+          const x = await axios.get(url);
+          vehicle.push(x.data);
+
+          await this.setState({ count: this.state.count - 1 });
+          if (this.state.count <= 0) {
+            await this.setState({ vehicle });
+          }
+        });
+        await this.setState({ tipo: TIPO, nome: NAME });
       }
     } else if (TIPO === "NAVES") {
-      let starships = await sessionStorage.getItem("NAVES_PERSONAGEM");
-      if (starships != null) {
-        starships = await JSON.parse(starships);
-        await this.setState({ tipo: TIPO, nome: NAME, starships });
+      let starshipsAux = await sessionStorage.getItem("NAVES_PERSONAGEM");
+      if (starshipsAux != null) {
+        starshipsAux = await JSON.parse(starshipsAux);
+        let starships = [];
+        await this.setState({ count: starshipsAux.length });
+        starshipsAux.forEach(async url => {
+          const x = await axios.get(url);
+          starships.push(x.data);
+
+          await this.setState({ count: this.state.count - 1 });
+          if (this.state.count <= 0) {
+            await this.setState({ starships });
+          }
+        });
+        await this.setState({ tipo: TIPO, nome: NAME });
       }
     }
     console.log(this.state);
@@ -105,7 +125,7 @@ class Home extends Component {
                 </div>
                 <div
                   id={"data" + key}
-                  className="collapse show"
+                  className="collapse"
                   aria-labelledby={"data" + key}
                   data-parent="#accordionExample"
                 >
@@ -121,15 +141,81 @@ class Home extends Component {
               </div>
             ))}
           {this.state.tipo === "VEICULO" &&
-            this.state.vehicle.map(x => (
-              <div>
-                <a>{x.name}</a>
+            this.state.vehicle.map((x, key) => (
+              <div key={key} className="card">
+                <div className="card-header">
+                  <h2 className="mb-0">
+                    <button
+                      className="btn btn-link"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target={"#data" + key}
+                      aria-expanded="true"
+                      aria-controls={"data" + key}
+                    >
+                      {x.name}
+                    </button>
+                  </h2>
+                </div>
+                <div
+                  id={"data" + key}
+                  className="collapse"
+                  aria-labelledby={"data" + key}
+                  data-parent="#accordionExample"
+                >
+                  <div className="card-body">
+                    <h6>Passageiros: {x.passengers}</h6>
+                    <h6>Modelo: {x.model}</h6>
+                    <h6>
+                      Velocidade máxima na atmosfera: {x.max_atmosphering_speed}
+                    </h6>
+                    <h6>Produtor: {x.manufacturer}</h6>
+                    <h6>Tamanho do veículo: {x.length}</h6>
+                    <h6>Número de pilotos: {x.crew}</h6>
+                    <h6>Preço em créditos: {x.cost_in_credits}</h6>
+                    <h6>Capacidade: {x.cargo_capacity} Kg</h6>
+                  </div>
+                </div>
               </div>
             ))}
           {this.state.tipo === "NAVES" &&
-            this.state.starships.map(x => (
-              <div>
-                <a>{x.name}</a>
+            this.state.starships.map((x, key) => (
+              <div key={key} className="card">
+                <div className="card-header">
+                  <h2 className="mb-0">
+                    <button
+                      className="btn btn-link"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target={"#data" + key}
+                      aria-expanded="true"
+                      aria-controls={"data" + key}
+                    >
+                      {x.name}
+                    </button>
+                  </h2>
+                </div>
+                <div
+                  id={"data" + key}
+                  className="collapse show"
+                  aria-labelledby={"data" + key}
+                  data-parent="#accordionExample"
+                >
+                  <div className="card-body">
+                    <h6>Passageiros: {x.passengers}</h6>
+                    <h6>Modelo: {x.model}</h6>
+                    <h6>
+                      Velocidade máxima na atmosfera: {x.max_atmosphering_speed}
+                    </h6>
+                    <h6>Classe da nave: {x.starship_class}</h6>
+                    <h6>Produtor: {x.manufacturer}</h6>
+                    <h6>Tamanho do veículo: {x.length}</h6>
+                    <h6>Número de pilotos: {x.crew}</h6>
+                    <h6>Preço em créditos: {x.cost_in_credits}</h6>
+                    <h6>Capacidade: {x.cargo_capacity} Kg</h6>
+                    <h6>Megalights por hora: {x.MGLT}</h6>
+                  </div>
+                </div>
               </div>
             ))}
         </div>
