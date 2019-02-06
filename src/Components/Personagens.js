@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
+import Jumbotron from "react-bootstrap/Jumbotron";
 
 class Personagens extends Component {
   state = {
@@ -44,6 +45,10 @@ class Personagens extends Component {
       await sessionStorage.setItem("VEICULOS_PERSONAGEM", data);
     else if (tipo === "NAVES")
       await sessionStorage.setItem("NAVES_PERSONAGEM", data);
+    else if (tipo === "PLANETA")
+      await sessionStorage.setItem("PLANETA_PERSONAGEM", data);
+    else if (tipo === "ESPECIE")
+      await sessionStorage.setItem("ESPECIE_PERSONAGEM", data);
     await sessionStorage.setItem("TIPO", tipo);
 
     document.location.href = document.location.origin + "/detalhe";
@@ -51,74 +56,64 @@ class Personagens extends Component {
 
   render() {
     return (
-      <Container fluid>
-        <Row className="mt-3">
-          <Col>
-            <Form>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Label>Nome do personagem</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Digite o nome do personagem"
-                  onChange={this.handleChange.bind(this)}
-                />
-              </Form.Group>
-              <Button variant="primary" onClick={this.procuraPersonagem}>
-                Enviar
-              </Button>
-            </Form>
-          </Col>
-        </Row>
+      <Container>
+        <div className="mt-3">
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Nome do personagem</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Digite o nome do personagem"
+              onChange={this.handleChange.bind(this)}
+              onEnter={this.procuraPersonagem}
+            />
+          </Form.Group>
+          <Button variant="primary" onClick={this.procuraPersonagem}>
+            Enviar
+          </Button>
+        </div>
 
         {this.state.registers.map(person => (
-          <Fragment>
-            <h1 className="mt-3">{person.name}</h1>
+          <Jumbotron className="mt-4 py-4">
+            <h1>{person.name}</h1>
             <Row>
-              <Col>
+              <Col xs={6} md={9}>
                 <Card>
                   <Card.Header className="font-weight-bold">
-                    Personal information
+                    Informações pessoais
                   </Card.Header>
                   <ListGroup className="list-group-flush">
                     <ListGroupItem>
-                      Bith date: {person.birth_year}
+                      Data de nascimento: {person.birth_year}
                     </ListGroupItem>
-                    <ListGroupItem>Eye color: {person.eye_color}</ListGroupItem>
-                    <ListGroupItem>Gender: {person.gender}</ListGroupItem>
                     <ListGroupItem>
-                      Hair color: {person.hair_color}
+                      Cor do olho: {person.eye_color}
                     </ListGroupItem>
-                    <ListGroupItem>Height: {person.height}</ListGroupItem>
-                    <ListGroupItem>Mass: {person.mass}</ListGroupItem>
+                    <ListGroupItem>Gênero: {person.gender}</ListGroupItem>
                     <ListGroupItem>
-                      Skin color: {person.skin_color}
+                      Cor do cabelo: {person.hair_color}
+                    </ListGroupItem>
+                    <ListGroupItem>Altura: {person.height}</ListGroupItem>
+                    <ListGroupItem>Peso: {person.mass}</ListGroupItem>
+                    <ListGroupItem>
+                      Cor da pele: {person.skin_color}
                     </ListGroupItem>
                   </ListGroup>
                 </Card>
               </Col>
-              {person.films.length > 0 && (
-                <Col>
-                  <a
+              <Col>
+                {person.films.length > 0 && (
+                  <Button
+                    className="btn-block"
                     onClick={_ =>
                       this.handleDetalhe(person.name, person.films, "FILME")
                     }
                   >
-                    <Card>
-                      <Card.Header className="font-weight-bold">
-                        Ver Filmes
-                      </Card.Header>
-                      {/*  <ListGroup className="list-group-flush">
-                    {person.films.map(film => (
-                      <ListGroupItem>{film}</ListGroupItem>
-                    ))}
-                  </ListGroup>*/}
-                    </Card>
-                  </a>
-                </Col>
-              )}
-              {person.vehicles.length > 0 && (
-                <Col>
-                  <a
+                    Ver Filmes
+                  </Button>
+                )}
+                {person.vehicles.length > 0 && (
+                  <Button
+                    className="btn-block"
                     onClick={_ =>
                       this.handleDetalhe(
                         person.name,
@@ -127,41 +122,42 @@ class Personagens extends Component {
                       )
                     }
                   >
-                    <Card>
-                      <Card.Header className="font-weight-bold">
-                        Ver veículos
-                      </Card.Header>
-                      {/*  <ListGroup className="list-group-flush">
-                    {person.films.map(film => (
-                      <ListGroupItem>{film}</ListGroupItem>
-                    ))}
-                  </ListGroup>*/}
-                    </Card>
-                  </a>
-                </Col>
-              )}
-              {person.starships.length > 0 && (
-                <Col>
-                  <a
+                    Ver veículos
+                  </Button>
+                )}
+                {person.starships.length > 0 && (
+                  <Button
+                    className="btn-block"
                     onClick={_ =>
                       this.handleDetalhe(person.name, person.starships, "NAVES")
                     }
                   >
-                    <Card>
-                      <Card.Header className="font-weight-bold">
-                        Ver naves
-                      </Card.Header>
-                      {/*  <ListGroup className="list-group-flush">
-                    {person.films.map(film => (
-                      <ListGroupItem>{film}</ListGroupItem>
-                    ))}
-                  </ListGroup>*/}
-                    </Card>
-                  </a>
-                </Col>
-              )}
+                    Ver naves
+                  </Button>
+                )}
+
+                <Button
+                  className="btn-block"
+                  onClick={_ =>
+                    this.handleDetalhe(person.name, person.homeworld, "PLANETA")
+                  }
+                >
+                  Ver planeta
+                </Button>
+
+                {person.species.length > 0 && (
+                  <Button
+                    className="btn-block"
+                    onClick={_ =>
+                      this.handleDetalhe(person.name, person.species, "ESPECIE")
+                    }
+                  >
+                    Ver espécie
+                  </Button>
+                )}
+              </Col>
             </Row>
-          </Fragment>
+          </Jumbotron>
         ))}
       </Container>
     );
