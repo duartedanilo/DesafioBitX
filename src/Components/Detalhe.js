@@ -31,7 +31,7 @@ class Home extends Component {
     console.log(this.state.films);
   };
   componentWillUnmount = async () => {
-    await sessionStorage.clear();
+    //await sessionStorage.clear();
   };
 
   componentWillMount = async _ => {
@@ -138,193 +138,111 @@ class Home extends Component {
           <div className="accordion" id="accordionExample">
             {this.state.tipo === "FILME" &&
               this.state.films.map((x, key) => (
-                <div key={key} className="card">
-                  <div className="card-header">
-                    <h2 className="mb-0">
-                      <button
-                        className="btn btn-link"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target={"#data" + key}
-                        aria-expanded="true"
-                        aria-controls={"data" + key}
-                      >
-                        {x.title}
-                      </button>
-                    </h2>
-                  </div>
-                  <div
-                    id={"data" + key}
-                    className="collapse"
-                    aria-labelledby={"data" + key}
-                    data-parent="#accordionExample"
-                  >
-                    <div className="card-body">
-                      <h6>Episódio: {x.episode_id}</h6>
-                      <h6>Diretor: {x.director}</h6>
-                      <h6>Data de lançamento: {x.release_date}</h6>
-                      <h6>Produtores: {x.producer}</h6>
-                      <br />
-                      <h6>Prólogo: {x.opening_crawl}</h6>
-                    </div>
-                  </div>
-                </div>
+                <Divider title={x.title} indice={key}>
+                  <h6>Episódio: {x.episode_id}</h6>
+                  <h6>Diretor: {x.director}</h6>
+                  <h6>Data de lançamento: {x.release_date}</h6>
+                  <h6>Produtores: {x.producer}</h6>
+                  <br />
+                  <h6>Prólogo: {x.opening_crawl}</h6>
+                </Divider>
               ))}
             {this.state.tipo === "VEICULO" &&
               this.state.vehicle.map((x, key) => (
-                <div key={key} className="card">
-                  <div className="card-header">
-                    <h2 className="mb-0">
-                      <button
-                        className="btn btn-link"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target={"#data" + key}
-                        aria-expanded="true"
-                        aria-controls={"data" + key}
-                      >
-                        {x.name}
-                      </button>
-                    </h2>
-                  </div>
-                  <div
-                    id={"data" + key}
-                    className="collapse"
-                    aria-labelledby={"data" + key}
-                    data-parent="#accordionExample"
-                  >
-                    <div className="card-body">
-                      <h6>Modelo: {x.model}</h6>
-                      <h6>Passageiros: {x.passengers}</h6>
-                      <h6>
-                        Velocidade máxima na atmosfera:{" "}
-                        {x.max_atmosphering_speed}
-                      </h6>
-                      <h6>Produtor: {x.manufacturer}</h6>
-                      <h6>Tamanho do veículo: {x.length}</h6>
-                      <h6>Número de pilotos: {x.crew}</h6>
-                      <h6>Preço em créditos: {x.cost_in_credits}</h6>
-                      <h6>Capacidade: {x.cargo_capacity} Kg</h6>
-                    </div>
-                  </div>
-                </div>
+                <Divider title={x.name} indice={key}>
+                  <h6>Modelo: {x.model}</h6>
+                  <h6>Passageiros: {x.passengers}</h6>
+                  <h6>
+                    Velocidade máxima na atmosfera: {x.max_atmosphering_speed}
+                  </h6>
+                  <h6>Produtor: {x.manufacturer}</h6>
+                  <h6>Tamanho do veículo: {x.length}</h6>
+                  <h6>Número de pilotos: {x.crew}</h6>
+                  <h6>Preço em créditos: {x.cost_in_credits}</h6>
+                  <h6>Capacidade: {x.cargo_capacity} Kg</h6>
+                </Divider>
               ))}
             {this.state.tipo === "NAVES" &&
               this.state.starships.map((x, key) => (
-                <div key={key} className="card">
-                  <div className="card-header">
-                    <h2 className="mb-0">
-                      <button
-                        className="btn btn-link"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target={"#data" + key}
-                        aria-expanded="true"
-                        aria-controls={"data" + key}
-                      >
-                        {x.name}
-                      </button>
-                    </h2>
-                  </div>
-                  <div
-                    id={"data" + key}
-                    className="collapse show"
-                    aria-labelledby={"data" + key}
-                    data-parent="#accordionExample"
-                  >
-                    <div className="card-body">
-                      <h6>Passageiros: {x.passengers}</h6>
-                      <h6>Modelo: {x.model}</h6>
-                      <h6>
-                        Velocidade máxima na atmosfera:{" "}
-                        {x.max_atmosphering_speed}
-                      </h6>
-                      <h6>Classe da nave: {x.starship_class}</h6>
-                      <h6>Produtor: {x.manufacturer}</h6>
-                      <h6>Tamanho do veículo: {x.length}</h6>
-                      <h6>Número de pilotos: {x.crew}</h6>
-                      <h6>Preço em créditos: {x.cost_in_credits}</h6>
-                      <h6>Capacidade: {x.cargo_capacity} Kg</h6>
-                      <h6>Megalights por hora: {x.MGLT}</h6>
-                    </div>
-                  </div>
-                </div>
+                <Divider title={x.name} indice={key}>
+                  <h6>Passageiros: {x.passengers}</h6>
+                  <h6>Modelo: {x.model}</h6>
+                  <h6>
+                    Velocidade máxima na atmosfera: {x.max_atmosphering_speed}
+                  </h6>
+                  <h6>Classe da nave: {x.starship_class}</h6>
+                  <h6>Produtor: {x.manufacturer}</h6>
+                  <h6>Tamanho do veículo: {x.length}</h6>
+                  <h6>Número de pilotos: {x.crew}</h6>
+                  <h6>Preço em créditos: {x.cost_in_credits}</h6>
+                  <h6>Capacidade: {x.cargo_capacity} Kg</h6>
+                  <h6>Megalights por hora: {x.MGLT}</h6>
+                </Divider>
               ))}
             {this.state.tipo === "PLANETA" &&
               this.state.planet.map((x, key) => (
-                <div key={key} className="card">
-                  <div className="card-header">
-                    <h2 className="mb-0">
-                      <button
-                        className="btn btn-link"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target={"#data" + key}
-                        aria-expanded="true"
-                        aria-controls={"data" + key}
-                      >
-                        {x.name}
-                      </button>
-                    </h2>
-                  </div>
-                  <div
-                    id={"data" + key}
-                    className="collapse"
-                    aria-labelledby={"data" + key}
-                    data-parent="#accordionExample"
-                  >
-                    <div className="card-body">
-                      <h6>Nome: {x.name}</h6>
-                      <h6>Clima: {x.climate}</h6>
-                      <h6>Diâmetro: {x.diameter} Km</h6>
-                      <h6>Gravidade: {x.gravity} </h6>
-                      <h6>População: {x.population}</h6>
-                      <h6>Período orbital: {x.orbital_period} dias</h6>
-                      <h6>Período de rotação: {x.rotation_period} horas</h6>
-                      <h6>Água na superfície: {x.surface_water}%</h6>
-                      <h6>Terreno: {x.terrain}</h6>
-                    </div>
-                  </div>
-                </div>
+                <Divider title={x.name} indice={key}>
+                  <h6>Nome: {x.name}</h6>
+                  <h6>Clima: {x.climate}</h6>
+                  <h6>Diâmetro: {x.diameter} Km</h6>
+                  <h6>Gravidade: {x.gravity} </h6>
+                  <h6>População: {x.population}</h6>
+                  <h6>Período orbital: {x.orbital_period} dias</h6>
+                  <h6>Período de rotação: {x.rotation_period} horas</h6>
+                  <h6>Água na superfície: {x.surface_water}%</h6>
+                  <h6>Terreno: {x.terrain}</h6>
+                </Divider>
               ))}
             {this.state.tipo === "ESPECIE" &&
               this.state.species.map((x, key) => (
-                <div key={key} className="card">
-                  <div className="card-header">
-                    <h2 className="mb-0">
-                      <button
-                        className="btn btn-link"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target={"#data" + key}
-                        aria-expanded="true"
-                        aria-controls={"data" + key}
-                      >
-                        {x.name}
-                      </button>
-                    </h2>
-                  </div>
-                  <div
-                    id={"data" + key}
-                    className="collapse"
-                    aria-labelledby={"data" + key}
-                    data-parent="#accordionExample"
-                  >
-                    <div className="card-body">
-                      <h6>Nome: {x.name}</h6>
-                      <h6>Idioma: {x.language}</h6>
-                      <h6>Cores de cabelo: {x.hair_colors}</h6>
-                      <h6>Cores de olhos: {x.eye_colors}</h6>
-                      <h6>Designação: {x.designation}</h6>
-                      <h6>Classificação: {x.classification}</h6>
-                      <h6>Tempo de vida médio: {x.average_lifespan} anos</h6>
-                      <h6>Altura média: {x.average_height} cm</h6>
-                    </div>
-                  </div>
-                </div>
+                <Divider title={x.name} indice={key}>
+                  <h6>Nome: {x.name}</h6>
+                  <h6>Idioma: {x.language}</h6>
+                  <h6>Cores de cabelo: {x.hair_colors}</h6>
+                  <h6>Cores de olhos: {x.eye_colors}</h6>
+                  <h6>Designação: {x.designation}</h6>
+                  <h6>Classificação: {x.classification}</h6>
+                  <h6>Tempo de vida médio: {x.average_lifespan} anos</h6>
+                  <h6>Altura média: {x.average_height} cm</h6>
+                </Divider>
               ))}
           </div>
         </Container>
+      </div>
+    );
+  }
+}
+
+class Divider extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div className="card">
+        <div className="card-header">
+          <h2 className="mb-0">
+            <button
+              className="btn btn-link"
+              type="button"
+              data-toggle="collapse"
+              data-target={"#data" + this.props.indice}
+              aria-expanded="true"
+              aria-controls={"data" + this.props.indice}
+            >
+              {this.props.title}
+              {console.log(this.props)}
+            </button>
+          </h2>
+        </div>
+        <div
+          id={"data" + this.props.indice}
+          className="collapse"
+          aria-labelledby={"data" + this.props.indice}
+          data-parent="#accordionExample"
+        >
+          <div className="card-body">{this.props.children}</div>
+        </div>
       </div>
     );
   }
